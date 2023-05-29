@@ -21,7 +21,7 @@ DEFAULT_USER_PASSWORD = 'password'
 DEFAULT_USER_PREFIX = 'performance_'
 ERROR_LIMIT = 10
 
-ENGLISH = 'en_US'
+ENGLISH = 'en'
 
 
 def __generate_jqls(max_length=3, count=100):
