@@ -41,32 +41,33 @@ def app_specific_action(webdriver, datasets):
 
         @print_timing("selenium_app_custom_action:create_label")
         def sub_measure():
-            labels = issue_page.get_element((By.ID, "wrap-labels"))
-            issue_page.action_chains().move_to_element(labels)
-            issue_page.wait_until_visible((By.CSS_SELECTOR, "#wrap-labels > div > span")).click()
+            issue_page.wait_until_visible((By.CSS_SELECTOR, "#wrap-labels > strong")).click()
+            issue_page.action_chains().send_keys("l").perform()
+            issue_page.wait_until_visible((By.CSS_SELECTOR, "#edit-labels-dialog"))
             issue_page.action_chains().send_keys(label_name).perform()
-            issue_page.wait_until_visible((By.CSS_SELECTOR, "#jira > div.ajs-layer.box-shadow.active")).click()
-            issue_page.wait_until_visible((By.CSS_SELECTOR, "#labels-form > div.save-options > button.aui-button.submit")).click()
-            issue_page.wait_until_visible((By.CLASS_NAME, "labels"))
-
+            issue_page.action_chains().send_keys(Keys.ENTER).perform()
+            issue_page.wait_until_visible((By.CSS_SELECTOR, "#submit")).click()
+            issue_page.wait_until_visible((By.XPATH, "//div[@id='wrap-labels']//a[.//span[contains(text(), '" + label_name + "')]]"),10)
         sub_measure()
 
         @print_timing("selenium_app_custom_action:add_color")
         def sub_measure():
+            temp = issue_page.get_element((By.ID, "summary-val"))
+            issue_page.action_chains().move_to_element(temp).perform()
             labels = issue_page.get_element((By.XPATH, "//div[@id='wrap-labels']//a[.//span[contains(text(), '" + label_name + "')]]"))
             issue_page.action_chains().move_to_element(labels).perform()
             issue_page.wait_until_visible((By.XPATH, "//*[@id='lble-colorPicker']/table/tbody/tr[1]/td[1]/div")).click()
-            time.sleep(2)
         sub_measure()
 
+        time.sleep(2)
         issue_page.go_to()
         issue_page.wait_for_page_loaded()
+        issue_page.wait_until_visible((By.ID, "wrap-labels"))
 
         @print_timing("selenium_app_custom_action:validate_color")
         def sub_measure():
             issue_page.wait_until_visible((By.CLASS_NAME, "labels"))
             labels = issue_page.get_element((By.XPATH, "//div[@id='wrap-labels']//a[.//span[contains(text(), '" + label_name + "')]]"))
-            print(labels.value_of_css_property("background-color"))
             assert labels.value_of_css_property("background-color") == "rgba(207, 159, 255, 1)"
         sub_measure()
     measure()
