@@ -5,7 +5,7 @@ settings:
   verbose: false
   check-updates: false    # disable bzt check for updates
   env:
-    application_hostname: ac0b2b30d6a96409d91a117a948a5f90-696865699.us-east-2.elb.amazonaws.com # Jira DC hostname without protocol and port e.g. test-jira.atlassian.com or localhost
+    application_hostname: a8fb444129c224b699d742ead8cca367-411057986.us-east-2.elb.amazonaws.com # Jira DC hostname without protocol and port e.g. test-jira.atlassian.com or localhost
     application_port: 80            # 80, 443, 8080, 2990, etc
     WEBDRIVER_VISIBLE: False
     test_duration: 45m
